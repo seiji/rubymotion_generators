@@ -1,6 +1,13 @@
 require "rubymotion_generators/version"
 require 'thor'
 
+module StringUtils
+  def camelcase
+    self.split('_').map{|s| s.capitalize}.join('')
+  end
+end
+String.send :include, StringUtils
+
 module RubymotionGenerators
   class Core < Thor
     include Thor::Actions
@@ -39,28 +46,28 @@ module RubymotionGenerators
     def generate_view(name)
       output_path = "app/views/#{name}_view.rb"
       template('templates/view.rb', output_path)
-      class_name = name.capitalize + "View"
+      class_name = name.camelcase + "View"
       insert_into_file(output_path, class_name, :after => 'class ')
     end
 
     def generate_table_view_controller(name = 'Untitled')
       output_path = "app/controllers/#{name}_table_view_controller.rb"
       template('templates/table_view_controller.rb', output_path)
-      class_name = name.capitalize + "TableViewController"
+      class_name = name.camelcase + "TableViewController"
       insert_into_file(output_path, class_name, :after => 'class ')
     end
 
     def generate_view_controller(name = 'Untitled')
       output_path = "app/controllers/#{name}_view_controller.rb"
       template('templates/view_controller.rb', output_path)
-      class_name = name.capitalize + "ViewController"
+      class_name = name.camelcase + "ViewController"
       insert_into_file(output_path, class_name, :after => 'class ')
     end
 
     def generate_table_view_cell(name = 'Untitled')
       output_path = "app/views/cells/#{name}_table_view_cell.rb"
       template('templates/table_view_cell.rb', output_path)
-      class_name = name.capitalize + "TableViewCell"
+      class_name = name.camelcase + "TableViewCell"
       insert_into_file(output_path, class_name, :after => 'class ')
     end
 
